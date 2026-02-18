@@ -4,6 +4,7 @@ import homeless.monkey.com.wallets.dto.BalanceOperationRequestDto;
 import homeless.monkey.com.wallets.dto.BalanceResponseDto;
 import homeless.monkey.com.wallets.entity.WalletEntity;
 import homeless.monkey.com.wallets.repository.WalletRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
@@ -23,7 +24,7 @@ public class WalletService {
 
         UUID walletId = dto.walletId();
         WalletEntity wallet = walletRepository.findByIdForUpdate(walletId)
-                .orElseThrow(() -> new IllegalArgumentException("Карта с ID:" + walletId + " не найдена"));
+                .orElseThrow(() -> new EntityNotFoundException("Карта с ID:" + walletId + " не найдена"));
 
         if(dto.isDeposit())
             wallet.addBalance(dto.amount());
