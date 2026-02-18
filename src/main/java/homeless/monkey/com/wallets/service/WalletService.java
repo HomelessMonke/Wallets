@@ -6,7 +6,6 @@ import homeless.monkey.com.wallets.entity.WalletEntity;
 import homeless.monkey.com.wallets.repository.WalletRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
 import java.util.UUID;
 
