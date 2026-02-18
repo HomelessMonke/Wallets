@@ -1,12 +1,13 @@
 package homeless.monkey.com.wallets.service;
 
 import homeless.monkey.com.wallets.dto.BalanceOperationRequestDto;
-import homeless.monkey.com.wallets.dto.BalanceOperationResponseDto;
+import homeless.monkey.com.wallets.dto.BalanceResponseDto;
 import homeless.monkey.com.wallets.entity.WalletEntity;
 import homeless.monkey.com.wallets.repository.WalletRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Service
@@ -19,11 +20,10 @@ public class WalletService {
     }
 
     @Transactional
-    public BalanceOperationResponseDto operateBalance(BalanceOperationRequestDto dto){
+    public BalanceResponseDto operateBalance(BalanceOperationRequestDto dto){
 
-        UUID walletID = dto.walletId();
-        WalletEntity wallet = walletRepository.findByIdForUpdate(walletID)
-                .orElseThrow(() -> new IllegalArgumentException("Карта с ID:" + walletID + " не найдена"));
+        UUID walletId = dto.walletId();
+        WalletEntity wallet = getWallet(walletId);
 
         if(dto.isDeposit())
             wallet.addBalance(dto.amount());
@@ -35,6 +35,16 @@ public class WalletService {
         }
 
         walletRepository.save(wallet);
-        return new BalanceOperationResponseDto(walletID, wallet.getBalance());
+        return new BalanceResponseDto(walletId, wallet.getBalance());
+    }
+
+    public BigDecimal getBalance(UUID walletId){
+        WalletEntity wallet = getWallet(walletId);
+        return wallet.getBalance();
+    }
+
+    public WalletEntity getWallet(UUID walletId){
+        return walletRepository.findByIdForUpdate(walletId)
+                .orElseThrow(() -> new IllegalArgumentException("Карта с ID:" + walletId + " не найдена"));
     }
 }
