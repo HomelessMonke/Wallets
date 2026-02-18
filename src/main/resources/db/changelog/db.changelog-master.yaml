@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include:
+      file: changeset/v1-create-wallets-table.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: changeset/v1-init-wallets.yaml
+      relativeToChangelogFile: true

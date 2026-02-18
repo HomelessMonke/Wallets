@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-@RestController("/api/v1")
+@RestController
+@RequestMapping("/api/v1")
 public class WalletController {
 
     private final WalletService walletService;

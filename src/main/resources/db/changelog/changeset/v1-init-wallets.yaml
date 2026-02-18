@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-init-wallets
+      author: homelessmonkey
+      changes:
+        - loadData:
+            file: db/data/wallets.csv
+            tableName: wallets
+            encoding: UTF-8
+            separator: ','
+            quotchar: '"'

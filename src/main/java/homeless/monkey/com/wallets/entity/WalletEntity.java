@@ -14,7 +14,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@Table(name = "wallets_table")
+@Table(name = "wallets")
 public class WalletEntity {
 
     @Id

@@ -23,7 +23,8 @@ public class WalletService {
     public BalanceResponseDto operateBalance(BalanceOperationRequestDto dto){
 
         UUID walletId = dto.walletId();
-        WalletEntity wallet = getWallet(walletId);
+        WalletEntity wallet = walletRepository.findByIdForUpdate(walletId)
+                .orElseThrow(() -> new IllegalArgumentException("Карта с ID:" + walletId + " не найдена"));
 
         if(dto.isDeposit())
             wallet.addBalance(dto.amount());
@@ -39,12 +40,9 @@ public class WalletService {
     }
 
     public BigDecimal getBalance(UUID walletId){
-        WalletEntity wallet = getWallet(walletId);
-        return wallet.getBalance();
-    }
-
-    public WalletEntity getWallet(UUID walletId){
-        return walletRepository.findByIdForUpdate(walletId)
+        WalletEntity wallet = walletRepository.findById(walletId)
                 .orElseThrow(() -> new IllegalArgumentException("Карта с ID:" + walletId + " не найдена"));
+
+        return wallet.getBalance();
     }
 }
