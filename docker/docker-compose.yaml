@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+
+  db:
+    image: postgres:16-alpine
+    container_name: wallet-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: wallets
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5432:5432"
+
+  app:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: wallet-app
+    restart: unless-stopped
+    environment:
+      DB_URL: jdbc:postgresql://db:5432/wallets
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_MAX_POOL: 50
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
