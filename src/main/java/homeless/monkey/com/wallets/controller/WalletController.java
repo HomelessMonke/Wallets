@@ -29,4 +29,9 @@ public class WalletController {
     public ResponseEntity<BigDecimal> getBalance(@PathVariable UUID id){
         return ResponseEntity.ok(walletService.getBalance(id));
     }
+
+    @GetMapping("/home")
+    public ResponseEntity<Void> getHome(){
+        return ResponseEntity.ok().build();
+    }
 }
